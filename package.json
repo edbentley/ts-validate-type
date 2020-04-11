@@ -1,7 +1,29 @@
 {
   "name": "root",
   "private": true,
+  "scripts": {
+    "test": "lerna run test",
+    "test:watch": "lerna run --parallel test:watch",
+    "lint": "eslint --ext .js,.ts .",
+    "types": "tsc --noEmit -p ./tsconfig.json",
+    "ci": "npm run lint && npm run types && npm run test"
+  },
   "devDependencies": {
-    "lerna": "^3.20.2"
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-typescript": "^7.9.0",
+    "@types/jest": "^25.2.1",
+    "@typescript-eslint/eslint-plugin": "^2.27.0",
+    "@typescript-eslint/parser": "^2.27.0",
+    "babel-jest": "^25.3.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "jest": "^25.3.0",
+    "lerna": "^3.20.2",
+    "prettier": "^2.0.4",
+    "ts-jest": "^25.3.1",
+    "ts-node": "^8.8.2",
+    "typescript": "^3.8.3"
   }
 }
