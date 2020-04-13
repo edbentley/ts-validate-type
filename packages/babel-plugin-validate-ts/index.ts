@@ -28,6 +28,49 @@ function typeParamToValidator(type: t.TSType): ValidateTsType {
     case "TSLiteralType":
       return { tag: "literal", value: type.literal.value };
 
+    case "TSTypeReference":
+      throw new Error("validate-ts only supports inline types");
+
+    case "TSUnionType":
+      return { tag: "union", types: type.types.map(typeParamToValidator) };
+
+    case "TSArrayType":
+      return {
+        tag: "array",
+        elementType: typeParamToValidator(type.elementType),
+      };
+
+    case "TSParenthesizedType":
+      return typeParamToValidator(type.typeAnnotation);
+
+    case "TSTypeLiteral":
+      return {
+        tag: "record",
+        fields: type.members.map((member) => {
+          if (!t.isTSPropertySignature(member)) {
+            throw new Error(`Unimplemented type ${member.type}`);
+          }
+          if (!t.isIdentifier(member.key)) {
+            throw new Error("Keys must be string literals");
+          }
+
+          const isOptional = member.optional ?? false;
+
+          const key = member.key.name;
+          const value = typeParamToValidator(
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            member.typeAnnotation!.typeAnnotation
+          );
+          return { key, value, isOptional };
+        }),
+      };
+
+    case "TSTupleType":
+      return {
+        tag: "tuple",
+        elementTypes: type.elementTypes.map(typeParamToValidator),
+      };
+
     default:
       throw new Error(`Unimplemented type ${type.type}`);
   }
