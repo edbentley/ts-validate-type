@@ -3,7 +3,7 @@ import {
   ValidateTsType,
   Primitive,
   Literal,
-} from "../../common/validate-ts-type";
+} from "./validate-ts-type";
 
 export function validateType<T>(
   value: unknown,

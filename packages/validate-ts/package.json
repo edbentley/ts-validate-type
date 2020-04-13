@@ -2,7 +2,11 @@
   "name": "validate-ts",
   "version": "0.1.0",
   "description": "Validate data at runtime using TypeScript types",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "rm -r lib && tsc"
+  },
   "author": "Ed Bentley",
   "license": "MIT"
 }

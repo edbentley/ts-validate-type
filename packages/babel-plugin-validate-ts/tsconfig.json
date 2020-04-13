@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "lib": ["es2017"],
+    "module": "commonjs",
+    "strict": true,
+    "declaration": true,
+    "outDir": "lib",
+    "forceConsistentCasingInFileNames": true
+  },
+  "exclude": ["node_modules", "lib", "**/*.test*"]
+}

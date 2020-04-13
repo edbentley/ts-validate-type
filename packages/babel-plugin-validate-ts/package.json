@@ -2,7 +2,11 @@
   "name": "babel-plugin-validate-ts",
   "version": "0.1.0",
   "description": "Babel plugin for validate-ts package",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "rm -r lib && tsc"
+  },
   "author": "Ed Bentley",
   "license": "MIT"
 }

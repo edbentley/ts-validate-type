@@ -2,11 +2,12 @@
   "name": "root",
   "private": true,
   "scripts": {
+    "build": "lerna run build",
     "test": "npm run test:generate && jest",
     "test:generate": "ts-node tests/generateTests.ts",
     "lint": "eslint --ext .js,.ts .",
     "types": "tsc --noEmit -p ./tsconfig.json",
-    "ci": "npm run lint && npm run types && npm run test"
+    "ci": "npm run lint && npm run types && npm run test && npm run build"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

@@ -1,6 +1,6 @@
 import * as t from "@babel/types";
 import { PluginObj } from "@babel/core";
-import { typeVersion, ValidateTsType } from "../../common/validate-ts-type";
+import { typeVersion, ValidateTsType } from "./validate-ts-type";
 
 function typeParamToValidator(type: t.TSType): ValidateTsType {
   switch (type.type) {
