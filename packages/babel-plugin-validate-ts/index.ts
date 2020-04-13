@@ -28,6 +28,12 @@ function typeParamToValidator(type: t.TSType): ValidateTsType {
     case "TSLiteralType":
       return { tag: "literal", value: type.literal.value };
 
+    case "TSUnknownKeyword":
+      return { tag: "other", type: "unknown" };
+
+    case "TSAnyKeyword":
+      return { tag: "other", type: "any" };
+
     case "TSTypeReference":
       throw new Error("validate-ts only supports inline types");
 
@@ -71,8 +77,16 @@ function typeParamToValidator(type: t.TSType): ValidateTsType {
         elementTypes: type.elementTypes.map(typeParamToValidator),
       };
 
-    default:
-      throw new Error(`Unimplemented type ${type.type}`);
+    default: {
+      const typeMap: Record<string, string | undefined> = {
+        TSNeverKeyword: "never",
+        TSObjectKeyword: "object",
+        TSVoidKeyword: "void",
+        TSThisType: "this",
+        TSFunctionType: "function",
+      };
+      throw new Error(`${typeMap[type.type] ?? type.type} type not supported`);
+    }
   }
 }
 

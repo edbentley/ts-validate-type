@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { validateType } from "../packages/validate-ts";
 
 describe("Can validate primitive types", () => {
@@ -69,6 +70,20 @@ describe("Can validate primitive types", () => {
     expect(() => validateType<undefined>(5)).toThrowError(
       "Value of type number is not expected type undefined"
     );
+  });
+});
+
+describe("Can validate other types", () => {
+  test("unknown", () => {
+    const value = "hello";
+
+    expect(validateType<unknown>(value)).toBe(value);
+  });
+
+  test("any", () => {
+    const value = "hello";
+
+    expect(validateType<any>(value)).toBe(value);
   });
 });
 
@@ -159,7 +174,7 @@ describe("Can validate arrays", () => {
     );
   });
 
-  test("union array", () => {
+  test("Union array", () => {
     const value = ["a", 1, "c"];
 
     expect(validateType<(string | number)[]>(value)).toBe(value);
@@ -175,7 +190,7 @@ describe("Can validate arrays", () => {
 });
 
 describe("Can validate records", () => {
-  test("simple record", () => {
+  test("Simple record", () => {
     const value = { name: "hello" };
 
     expect(validateType<{ name: string }>(value)).toBe(value);
@@ -193,7 +208,7 @@ describe("Can validate records", () => {
     );
   });
 
-  test("multi-field record", () => {
+  test("Multi-field record", () => {
     const value = { name: "hello", id: 0 };
 
     expect(validateType<{ name: string; id: number }>(value)).toBe(value);
@@ -211,7 +226,7 @@ describe("Can validate records", () => {
     ).toThrowError("Value is not expected type { name: string; id: number }");
   });
 
-  test("nested record", () => {
+  test("Nested record", () => {
     const value = { name: "hello", contact: { address: "000", phone: 123 } };
 
     expect(
@@ -257,7 +272,7 @@ describe("Can validate records", () => {
     );
   });
 
-  test("empty record", () => {
+  test("Empty record", () => {
     const value = {};
     const valueAddit = { name: "hello" };
 
@@ -269,7 +284,7 @@ describe("Can validate records", () => {
     );
   });
 
-  test("record with optional fields", () => {
+  test("Record with optional fields", () => {
     const value = { name: "hello", id: 0 };
     const valueNoId = { name: "hello" };
 
@@ -328,7 +343,7 @@ describe("Can validate tuples", () => {
     );
   });
 
-  test("empty tuple", () => {
+  test("Empty tuple", () => {
     const value: [] = [];
 
     expect(validateType<[]>(value)).toBe(value);
@@ -338,13 +353,3 @@ describe("Can validate tuples", () => {
     );
   });
 });
-
-/**
- * TODO:
- * - unknown
- * - any
- * - enum
- * - void
- * - () => void
- * - never
- */

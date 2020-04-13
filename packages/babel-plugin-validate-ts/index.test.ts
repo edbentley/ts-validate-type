@@ -28,4 +28,10 @@ describe("Incorrect usage", () => {
       transform(`validateType<{ 1: string }>({ 1: "hello" })`)
     ).toThrowError("Keys must be string literals");
   });
+
+  test("Unsupported type", () => {
+    expect(() => transform(`validateType<never>("hello")`)).toThrowError(
+      "never type not supported"
+    );
+  });
 });

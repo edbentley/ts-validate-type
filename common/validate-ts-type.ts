@@ -14,7 +14,8 @@ export type ValidateTsType =
   | { tag: "array"; elementType: ValidateTsType }
   | { tag: "union"; types: ValidateTsType[] }
   | { tag: "primitive"; type: Primitive }
-  | { tag: "literal"; value: Literal };
+  | { tag: "literal"; value: Literal }
+  | { tag: "other"; type: OtherType };
 
 export type Primitive =
   | null
@@ -26,3 +27,5 @@ export type Primitive =
   | "symbol";
 
 export type Literal = string | number | boolean;
+
+export type OtherType = "unknown" | "any";

@@ -87,6 +87,10 @@ function validateAllTypes<T>(value: unknown, type: ValidateTsType): T {
       });
 
       return (value as unknown) as T;
+
+    case "other":
+      // unknown or any
+      return value as T;
   }
 }
 
@@ -147,6 +151,9 @@ function printType(type: ValidateTsType): string {
           )}`;
         })
         .join("; ")} }`;
+
+    case "other":
+      return type.type;
   }
 }
 
