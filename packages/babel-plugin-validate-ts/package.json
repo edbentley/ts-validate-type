@@ -3,10 +3,6 @@
   "version": "0.1.0",
   "description": "Babel plugin for validate-ts package",
   "main": "index.js",
-  "scripts": {
-    "test": "../../node_modules/jest/bin/jest.js",
-    "test:watch": "../../node_modules/jest/bin/jest.js --watch"
-  },
   "author": "Ed Bentley",
   "license": "MIT"
 }

@@ -13,6 +13,7 @@ module.exports = {
     ],
     "extends": ["plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
     "rules": {
+        "@typescript-eslint/no-use-before-define": ["error", { "variables": false, "functions": false }],
         "@typescript-eslint/explicit-function-return-type": 0
     }
 };
