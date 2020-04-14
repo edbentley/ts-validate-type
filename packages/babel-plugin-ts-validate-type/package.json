@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-ts-validate-type",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Babel plugin for ts-validate-type package",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
