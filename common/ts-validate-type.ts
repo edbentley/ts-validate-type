@@ -1,11 +1,11 @@
-export type ValidateTsType =
+export type TsValidateType =
   | {
       tag: "record";
-      fields: { key: string; value: ValidateTsType; isOptional: boolean }[];
+      fields: { key: string; value: TsValidateType; isOptional: boolean }[];
     }
-  | { tag: "tuple"; elementTypes: ValidateTsType[] }
-  | { tag: "array"; elementType: ValidateTsType }
-  | { tag: "union"; types: ValidateTsType[] }
+  | { tag: "tuple"; elementTypes: TsValidateType[] }
+  | { tag: "array"; elementType: TsValidateType }
+  | { tag: "union"; types: TsValidateType[] }
   | { tag: "primitive"; type: Primitive }
   | { tag: "literal"; value: Literal }
   | { tag: "other"; type: OtherType };

@@ -1,4 +1,4 @@
-# validate-ts
+# ts-validate-type
 
 ## What?
 
@@ -27,7 +27,7 @@ const myData = fetch("https://jsonplaceholder.typicode.com/todos/1")
   });
 ```
 
-With validate-ts:
+With ts-validate-type:
 
 ```ts
 const myData = fetch("https://jsonplaceholder.typicode.com/todos/1")
@@ -45,14 +45,14 @@ const myData = fetch("https://jsonplaceholder.typicode.com/todos/1")
 
 ## How?
 
-validate-ts requires a compile-time plugin to work. Given this example:
+ts-validate-type requires a compile-time plugin to work. Given this example:
 
 ```ts
 validateType<string>(data);
 ```
 
 The plugin will add the `<string>` type parameter as a runtime argument (a
-stringified object of type [`ValidateTsType`](./common/validate-ts-type.ts)),
+stringified object of type [`TsValidateType`](./common/ts-validate-type-type.ts)),
 which is then used for validation:
 
 ```ts
@@ -65,14 +65,14 @@ validateType<string>(data, "{ ... }");
 
 1. Install dependencies
   ```bash
-  npm install validate-ts
+  npm install ts-validate-type
   ```
   ```bash
-  npm install --save-dev babel-plugin-validate-ts
+  npm install --save-dev babel-plugin-ts-validate-type
   ```
 2. Add Babel plugin
   ```json
-  "plugins": ["babel-plugin-validate-ts", ...]
+  "plugins": ["babel-plugin-ts-validate-type", ...]
   ```
 
 ## API
@@ -92,7 +92,7 @@ supported.
 #### Examples
 
 ```ts
-import { validateType } from "validate-ts";
+import { validateType } from "ts-validate-type";
 
 try {
   const myValue = validateType<string>(value);

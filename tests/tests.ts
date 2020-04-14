@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { validateType } from "../packages/validate-ts/index";
+import { validateType } from "../packages/ts-validate-type/index";
 
 describe("Can validate primitive types", () => {
   test("string", () => {

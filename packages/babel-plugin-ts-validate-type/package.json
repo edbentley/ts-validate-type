@@ -1,19 +1,23 @@
 {
-  "name": "validate-ts",
+  "name": "babel-plugin-ts-validate-type",
   "version": "0.1.0",
-  "description": "Validate data at runtime using TypeScript types",
+  "description": "Babel plugin for ts-validate-type package",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "cp-files": "cp ../../README.md ../../LICENSE .",
     "build": "rm -r lib && tsc"
   },
+  "peerDependencies": {
+    "ts-validate-type": "0.1.x"
+  },
   "author": "Ed Bentley",
-  "repository": "github:edbentley/validate-ts",
+  "repository": "github:edbentley/ts-validate-type",
   "license": "MIT",
   "keywords": [
     "validate",
     "typescript",
     "runtime"
-  ]
+  ],
+  "gitHead": "d7aa7956709b7d8ce595f23e9360f34d6aebe45c"
 }

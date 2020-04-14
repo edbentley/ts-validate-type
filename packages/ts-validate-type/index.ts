@@ -1,4 +1,4 @@
-import { ValidateTsType, Primitive, Literal } from "./validate-ts-type";
+import { TsValidateType, Primitive, Literal } from "./ts-validate-type";
 
 /**
  * Validates the type of the `value` passed in matches the type argument `T`.
@@ -12,16 +12,16 @@ import { ValidateTsType, Primitive, Literal } from "./validate-ts-type";
 export function validateType<T>(value: unknown, doNotFillType?: string): T {
   if (doNotFillType === undefined) {
     throw new Error(
-      "validate-ts requires a build step such as babel-plugin-validate-ts"
+      "ts-validate-type requires a build step such as babel-plugin-ts-validate-type"
     );
   }
 
-  const type: ValidateTsType = JSON.parse(doNotFillType);
+  const type: TsValidateType = JSON.parse(doNotFillType);
 
   return validateAllTypes(value, type);
 }
 
-function validateAllTypes<T>(value: unknown, type: ValidateTsType): T {
+function validateAllTypes<T>(value: unknown, type: TsValidateType): T {
   switch (type.tag) {
     case "array":
       if (!value || !Array.isArray(value)) {
@@ -111,7 +111,7 @@ function validateLiteralType<T>(value: unknown, type: Literal): T {
   return value as T;
 }
 
-function printType(type: ValidateTsType): string {
+function printType(type: TsValidateType): string {
   switch (type.tag) {
     case "array":
       if (type.elementType.tag === "union") {

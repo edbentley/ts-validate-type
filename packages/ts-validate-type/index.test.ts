@@ -5,7 +5,7 @@ import { validateType } from "./index";
 describe("Setup errors", () => {
   test("No params", () => {
     expect(() => validateType<string>(1)).toThrowError(
-      "validate-ts requires a build step such as babel-plugin-validate-ts"
+      "ts-validate-type requires a build step such as babel-plugin-ts-validate-type"
     );
   });
 });

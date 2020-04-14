@@ -1,1 +1,0 @@
-../../common/validate-ts-type.ts

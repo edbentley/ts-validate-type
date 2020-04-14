@@ -1,11 +1,11 @@
 import * as t from "@babel/types";
 import { PluginObj, NodePath } from "@babel/core";
-import { ValidateTsType } from "./validate-ts-type";
+import { TsValidateType } from "./ts-validate-type";
 
 function typeParamToValidator(
   type: t.TSType,
   path: NodePath<t.CallExpression>
-): ValidateTsType {
+): TsValidateType {
   switch (type.type) {
     case "TSStringKeyword":
       return { tag: "primitive", type: "string" };
@@ -38,7 +38,9 @@ function typeParamToValidator(
       return { tag: "other", type: "any" };
 
     case "TSTypeReference":
-      throw path.buildCodeFrameError("validate-ts only supports inline types");
+      throw path.buildCodeFrameError(
+        "ts-validate-type only supports inline types"
+      );
 
     case "TSUnionType":
       return {

@@ -19,7 +19,7 @@ describe("Incorrect usage", () => {
 
   test("Type variables", () => {
     expect(() => transform(`validateType<MyType>("hello")`)).toThrowError(
-      "validate-ts only supports inline types"
+      "ts-validate-type only supports inline types"
     );
   });
 

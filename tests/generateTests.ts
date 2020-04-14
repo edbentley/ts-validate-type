@@ -3,7 +3,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as babel from "@babel/core";
-import plugin from "../packages/babel-plugin-validate-ts/index";
+import plugin from "../packages/babel-plugin-ts-validate-type/index";
 
 /* Generate Babel plugin tests */
 
