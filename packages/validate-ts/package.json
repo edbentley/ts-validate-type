@@ -5,8 +5,15 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
+    "cp-files": "cp ../../README.md ../../LICENSE .",
     "build": "rm -r lib && tsc"
   },
   "author": "Ed Bentley",
-  "license": "MIT"
+  "repository": "github:edbentley/validate-ts",
+  "license": "MIT",
+  "keywords": [
+    "validate",
+    "typescript",
+    "runtime"
+  ]
 }

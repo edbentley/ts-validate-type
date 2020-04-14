@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { validateType } from "../packages/validate-ts";
+import { validateType } from "../packages/validate-ts/index";
 
 describe("Can validate primitive types", () => {
   test("string", () => {
@@ -351,5 +351,23 @@ describe("Can validate tuples", () => {
     expect(() => validateType<[]>(["a", 1, "c"])).toThrowError(
       "Tuple is not the same length as []"
     );
+  });
+});
+
+describe("Usage", () => {
+  test("Dot notation", () => {
+    const value = "hello";
+
+    const V = { validateType };
+    expect(V.validateType<string>(value)).toBe(value);
+
+    const V2 = { nested: { validateType } };
+    expect(V2.nested.validateType<string>(value)).toBe(value);
+  });
+
+  test("Ignores validateType if not call expression", () => {
+    const myObj = { validateType: { run: () => "5" } };
+
+    expect(() => myObj.validateType.run()).not.toThrowError();
   });
 });

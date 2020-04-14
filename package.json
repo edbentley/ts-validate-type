@@ -7,7 +7,8 @@
     "test:generate": "ts-node tests/generateTests.ts",
     "lint": "eslint --ext .js,.ts .",
     "types": "tsc --noEmit -p ./tsconfig.json",
-    "ci": "npm run lint && npm run types && npm run test && npm run build"
+    "ci": "npm run lint && npm run types && npm run test && npm run build",
+    "prepublishOnly": "lerna run cp-files && npm run ci"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

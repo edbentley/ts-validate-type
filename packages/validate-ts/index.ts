@@ -1,27 +1,19 @@
-import {
-  typeVersion,
-  ValidateTsType,
-  Primitive,
-  Literal,
-} from "./validate-ts-type";
+import { ValidateTsType, Primitive, Literal } from "./validate-ts-type";
 
-export function validateType<T>(
-  value: unknown,
-  doNotFillType?: string,
-  doNotFillTypeVersion?: number
-): T {
-  if (doNotFillType === undefined || doNotFillTypeVersion === undefined) {
+/**
+ * Validates the type of the `value` passed in matches the type argument `T`.
+ * Throws error if the types don't match, otherwise returns the `value` passed
+ * in.
+ *
+ * @param value The value to validate.
+ * @param doNotFillType Do not used this parameter, this is filled in by the
+ * compile-time plugin.
+ */
+export function validateType<T>(value: unknown, doNotFillType?: string): T {
+  if (doNotFillType === undefined) {
     throw new Error(
       "validate-ts requires a build step such as babel-plugin-validate-ts"
     );
-  }
-  if (typeVersion !== doNotFillTypeVersion) {
-    if (typeVersion > doNotFillTypeVersion) {
-      throw new Error(
-        "Please update the build step package for validate-ts to the latest version"
-      );
-    }
-    throw new Error("Please update validate-ts to the latest version");
   }
 
   const type: ValidateTsType = JSON.parse(doNotFillType);

@@ -1,8 +1,11 @@
 import * as t from "@babel/types";
-import { PluginObj } from "@babel/core";
-import { typeVersion, ValidateTsType } from "./validate-ts-type";
+import { PluginObj, NodePath } from "@babel/core";
+import { ValidateTsType } from "./validate-ts-type";
 
-function typeParamToValidator(type: t.TSType): ValidateTsType {
+function typeParamToValidator(
+  type: t.TSType,
+  path: NodePath<t.CallExpression>
+): ValidateTsType {
   switch (type.type) {
     case "TSStringKeyword":
       return { tag: "primitive", type: "string" };
@@ -35,29 +38,32 @@ function typeParamToValidator(type: t.TSType): ValidateTsType {
       return { tag: "other", type: "any" };
 
     case "TSTypeReference":
-      throw new Error("validate-ts only supports inline types");
+      throw path.buildCodeFrameError("validate-ts only supports inline types");
 
     case "TSUnionType":
-      return { tag: "union", types: type.types.map(typeParamToValidator) };
+      return {
+        tag: "union",
+        types: type.types.map((t) => typeParamToValidator(t, path)),
+      };
 
     case "TSArrayType":
       return {
         tag: "array",
-        elementType: typeParamToValidator(type.elementType),
+        elementType: typeParamToValidator(type.elementType, path),
       };
 
     case "TSParenthesizedType":
-      return typeParamToValidator(type.typeAnnotation);
+      return typeParamToValidator(type.typeAnnotation, path);
 
     case "TSTypeLiteral":
       return {
         tag: "record",
         fields: type.members.map((member) => {
           if (!t.isTSPropertySignature(member)) {
-            throw new Error(`Unimplemented type ${member.type}`);
+            throw path.buildCodeFrameError(`Unimplemented type ${member.type}`);
           }
           if (!t.isIdentifier(member.key)) {
-            throw new Error("Keys must be string literals");
+            throw path.buildCodeFrameError("Keys must be string literals");
           }
 
           const isOptional = member.optional ?? false;
@@ -65,7 +71,8 @@ function typeParamToValidator(type: t.TSType): ValidateTsType {
           const key = member.key.name;
           const value = typeParamToValidator(
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            member.typeAnnotation!.typeAnnotation
+            member.typeAnnotation!.typeAnnotation,
+            path
           );
           return { key, value, isOptional };
         }),
@@ -74,7 +81,9 @@ function typeParamToValidator(type: t.TSType): ValidateTsType {
     case "TSTupleType":
       return {
         tag: "tuple",
-        elementTypes: type.elementTypes.map(typeParamToValidator),
+        elementTypes: type.elementTypes.map((t) =>
+          typeParamToValidator(t, path)
+        ),
       };
 
     default: {
@@ -85,7 +94,9 @@ function typeParamToValidator(type: t.TSType): ValidateTsType {
         TSThisType: "this",
         TSFunctionType: "function",
       };
-      throw new Error(`${typeMap[type.type] ?? type.type} type not supported`);
+      throw path.buildCodeFrameError(
+        `${typeMap[type.type] ?? type.type} type not supported`
+      );
     }
   }
 }
@@ -95,25 +106,29 @@ export default function (): PluginObj {
     visitor: {
       CallExpression(path) {
         if (
-          !t.isIdentifier(path.node.callee) ||
-          path.node.callee.name !== "validateType"
+          (t.isIdentifier(path.node.callee) &&
+            path.node.callee.name === "validateType") ||
+          (t.isMemberExpression(path.node.callee) &&
+            path.node.callee.property.name === "validateType")
         ) {
-          return;
+          if (
+            !path.node.typeParameters ||
+            path.node.typeParameters.params.length !== 1
+          ) {
+            throw path.buildCodeFrameError(
+              "Expected exactly one type parameter"
+            );
+          }
+
+          const runtimeType = typeParamToValidator(
+            path.node.typeParameters.params[0],
+            path
+          );
+
+          path.node.arguments.push(
+            t.stringLiteral(JSON.stringify(runtimeType))
+          );
         }
-
-        if (
-          !path.node.typeParameters ||
-          path.node.typeParameters.params.length !== 1
-        ) {
-          throw new Error("Expected exactly one type parameter");
-        }
-
-        const runtimeType = typeParamToValidator(
-          path.node.typeParameters.params[0]
-        );
-
-        path.node.arguments.push(t.stringLiteral(JSON.stringify(runtimeType)));
-        path.node.arguments.push(t.numericLiteral(typeVersion));
       },
     },
   };
